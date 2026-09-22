@@ -13,11 +13,8 @@
   ==========================================================================
   PLACEHOLDERS — search this file for "PLACEHOLDER" to find every one.
     [SOURCE]                 photo / video credit lines
-    [VIDEO URL]              video embed (use an EMBED link, e.g.
-                             https://www.youtube.com/embed/VIDEO_ID)
     [TITLE] [AUTHOR/ORGANISATION] [DATE] [LINK]   Sources section
-  IMAGES — put your three photos in the /images folder with these names
-  (or change the src="" paths below):
+  IMAGES — the three photos live in the /images folder:
     images/ubites-nasa-patch.jpg
     images/ubites-foodbot-printer.jpg
     images/jayakody-lab.jpg
@@ -279,8 +276,7 @@
     font-family: var(--mono); font-size: .74rem; letter-spacing: .06em;
     color: var(--muted);
   }
-  .feature-photo { max-width: 940px; margin: 0 auto; }
-  .feature-photo .photo img { aspect-ratio: 16 / 9; }
+  .feature-photo { max-width: 720px; margin: 0 auto; }
 
   /* Placeholder highlight so they're easy to spot */
   .ph {
@@ -717,8 +713,8 @@
   <div class="block wrap">
     <figure class="reveal d1">
       <div class="video-frame">
-        <!-- PLACEHOLDER: replace [VIDEO URL] with an embed link, e.g. https://www.youtube.com/embed/VIDEO_ID -->
-        <iframe src="[VIDEO URL]" title="Ubites video" loading="lazy"
+        <!-- Video: https://www.youtube.com/watch?v=8VlFjKupGdM -->
+        <iframe src="https://www.youtube.com/embed/8VlFjKupGdM" title="Ubites video" loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen></iframe>
       </div>
@@ -784,7 +780,7 @@
           <span class="kind">Video</span>
           <span class="t"><span class="ph">[TITLE]</span></span>
           <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
-          <a href="#"><span class="ph">[LINK]</span></a>
+          <a href="https://www.youtube.com/watch?v=8VlFjKupGdM" target="_blank" rel="noopener">https://www.youtube.com/watch?v=8VlFjKupGdM</a>
         </div>
       </li>
     </ol>
