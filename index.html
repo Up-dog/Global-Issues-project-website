@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Would You Eat Plastic? | Ubites</title>
+<meta name="description" content="How scientists are turning plastic waste into cookies for astronauts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+<!--
+  ==========================================================================
+  PLACEHOLDERS — search this file for "PLACEHOLDER" to find every one.
+    [SOURCE]                 photo / video credit lines
+    [VIDEO URL]              video embed (use an EMBED link, e.g.
+                             https://www.youtube.com/embed/VIDEO_ID)
+    [TITLE] [AUTHOR/ORGANISATION] [DATE] [LINK]   Sources section
+  IMAGES — put your three photos in the /images folder with these names
+  (or change the src="" paths below):
+    images/ubites-nasa-patch.jpg
+    images/ubites-foodbot-printer.jpg
+    images/jayakody-lab.jpg
+  ==========================================================================
+-->
+
+<style>
+  :root {
+    --bg: #07050a;
+    --bg-raise: #120b10;
+    --bg-card: #170d13;
+    --line: rgba(255, 70, 85, 0.18);
+    --crimson: #a50f2d;
+    --crimson-deep: #5e0718;
+    --red: #ff2d42;
+    --red-soft: #ff5a6a;
+    --glow: rgba(255, 45, 66, 0.55);
+    --gold: #f4b54d;
+    --gold-soft: rgba(244, 181, 77, 0.14);
+    --text: #efe8ea;
+    --muted: #b3a6ab;
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --wrap: 1120px;
+    --gutter: clamp(16px, 4vw, 40px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.09rem);
+    line-height: 1.72;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--red-soft); }
+  ::selection { background: var(--crimson); color: #fff; }
+
+  /* ---------- Starfield ---------- */
+  #stars {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+  .page { position: relative; z-index: 1; }
+
+  /* ---------- Top bar ---------- */
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 100%;
+    transform-origin: 0 50%; transform: scaleX(0);
+    background: linear-gradient(90deg, var(--crimson), var(--red), var(--gold));
+    box-shadow: 0 0 12px var(--glow);
+    z-index: 60;
+  }
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px var(--gutter);
+    transition: background .3s, backdrop-filter .3s, border-color .3s;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.solid {
+    background: rgba(7, 5, 10, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: var(--line);
+  }
+  .brand {
+    font-family: var(--display); font-weight: 700; font-size: .9rem;
+    letter-spacing: .28em; color: var(--text); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand i {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ff8a5c, var(--crimson) 60%, #2a0208);
+    box-shadow: 0 0 10px var(--glow);
+  }
+  .nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+  .nav a.link {
+    font-family: var(--mono); font-size: .74rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav a.link:hover, .nav a.link.active { color: var(--red); }
+  @media (max-width: 760px) { .nav ul { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid; place-items: center;
+    text-align: center;
+    padding: 120px var(--gutter) 30vh;
+    overflow: hidden;
+  }
+  .hero::before { /* sunset haze */
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(120% 60% at 50% 100%, rgba(165, 15, 45, .55), transparent 60%),
+      radial-gradient(60% 30% at 50% 92%, rgba(244, 120, 60, .22), transparent 70%);
+    pointer-events: none;
+  }
+  .mars {
+    position: absolute; left: 50%; bottom: 0;
+    width: max(150vw, 900px); aspect-ratio: 1;
+    transform: translate(-50%, 87%);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 22%, rgba(255, 170, 120, .35), transparent 18%),
+      radial-gradient(circle at 62% 12%, rgba(90, 10, 20, .45), transparent 10%),
+      radial-gradient(circle at 44% 8%, rgba(120, 20, 25, .35), transparent 6%),
+      radial-gradient(circle at 75% 20%, rgba(255, 140, 90, .18), transparent 12%),
+      radial-gradient(circle at 50% 0%, #e2552f 0%, #b52a22 12%, #6d0f17 26%, #2a040a 40%, #0a0205 55%);
+    box-shadow:
+      0 0 60px 10px rgba(255, 60, 60, .45),
+      0 0 180px 60px rgba(200, 20, 45, .35),
+      inset 0 30px 60px rgba(255, 150, 110, .25);
+    animation: marsRise 1.6s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .mars::after { /* atmosphere rim */
+    content: ""; position: absolute; inset: -3px; border-radius: 50%;
+    box-shadow: 0 -2px 18px 2px rgba(255, 120, 100, .6);
+    opacity: .8;
+  }
+  @keyframes marsRise { from { transform: translate(-50%, 100%); opacity: 0; } }
+
+  .hero-inner { position: relative; max-width: 980px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: .76rem; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--gold);
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ""; width: 28px; height: 1px; background: currentColor; opacity: .6;
+  }
+  .hero h1 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(2.6rem, 1rem + 7.6vw, 7rem);
+    line-height: .98; letter-spacing: -.02em;
+    margin: .35em 0 .3em;
+    color: #ffe9ea;
+    text-shadow:
+      0 0 8px rgba(255, 60, 75, .9),
+      0 0 28px rgba(255, 45, 66, .75),
+      0 0 70px rgba(200, 15, 45, .6);
+    animation: flicker 5s ease-in-out infinite;
+  }
+  .hero h1 span { display: block; color: var(--red); }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    47% { opacity: 1; } 48% { opacity: .86; } 49% { opacity: 1; }
+  }
+  .hero p.sub {
+    font-size: clamp(1.05rem, .95rem + .6vw, 1.4rem);
+    color: var(--text); opacity: .88;
+    max-width: 34ch; margin: 0 auto;
+  }
+  .scroll-cue {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    width: 22px; height: 36px; border: 1.5px solid rgba(255,255,255,.35); border-radius: 12px;
+  }
+  .scroll-cue::after {
+    content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px;
+    margin-left: -1.5px; border-radius: 2px; background: var(--red);
+    animation: cue 1.8s ease-in-out infinite;
+  }
+  @keyframes cue { 0% { transform: translateY(0); opacity: 1; } 80%,100% { transform: translateY(12px); opacity: 0; } }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+  section { position: relative; }
+  .block { padding: clamp(64px, 10vw, 120px) 0; }
+
+  .part-label {
+    display: flex; align-items: center; gap: 18px;
+    padding-top: clamp(70px, 10vw, 130px);
+  }
+  .part-label .tag {
+    font-family: var(--mono); font-size: .78rem; letter-spacing: .24em;
+    text-transform: uppercase; color: #fff;
+    background: linear-gradient(135deg, var(--crimson), var(--red));
+    padding: 8px 14px; border-radius: 3px;
+    box-shadow: 0 0 22px rgba(255, 45, 66, .35);
+    white-space: nowrap;
+  }
+  .part-label::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--red), transparent);
+    opacity: .5;
+  }
+  .part-title {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.2rem, 1.2rem + 4vw, 4.4rem);
+    line-height: 1; letter-spacing: -.02em;
+    margin: 22px 0 0;
+  }
+
+  .sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 28px; }
+  .sec-num {
+    font-family: var(--mono); font-size: .8rem; color: var(--red);
+    letter-spacing: .1em;
+  }
+  .sec-head h3 {
+    margin: 0;
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.3rem);
+    letter-spacing: -.01em; line-height: 1.15;
+  }
+  .prose { max-width: 66ch; }
+  .prose p { margin: 0 0 1.2em; color: var(--text); }
+  .prose p:last-child { margin-bottom: 0; }
+  .lead::first-letter {
+    font-family: var(--display); font-weight: 900; float: left;
+    font-size: 3.4em; line-height: .9; margin: .06em .12em 0 0;
+    color: var(--red); text-shadow: 0 0 18px var(--glow);
+  }
+
+  .split {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    gap: clamp(28px, 5vw, 70px); align-items: start;
+  }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+
+  hr.rule {
+    border: 0; height: 1px; margin: 0;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+  }
+
+  /* ---------- Figures ---------- */
+  figure { margin: 0; }
+  .photo {
+    position: relative; border-radius: 14px; overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,45,66,.05);
+  }
+  .photo img { width: 100%; height: auto; object-fit: cover; }
+  .photo::after { /* red corner glow */
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(160deg, transparent 60%, rgba(255, 45, 66, .16));
+  }
+  .photo .missing {
+    display: none; aspect-ratio: 4 / 3; place-items: center; text-align: center;
+    padding: 24px; color: var(--muted); font-family: var(--mono); font-size: .8rem;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,45,66,.05) 0 12px, transparent 12px 24px),
+      var(--bg-card);
+  }
+  .photo.is-missing img { display: none; }
+  .photo.is-missing .missing { display: grid; }
+  figcaption { margin-top: 14px; font-size: .95rem; color: var(--text); }
+  figcaption .credit {
+    display: block; margin-top: 4px;
+    font-family: var(--mono); font-size: .74rem; letter-spacing: .06em;
+    color: var(--muted);
+  }
+  .feature-photo { max-width: 940px; margin: 0 auto; }
+  .feature-photo .photo img { aspect-ratio: 16 / 9; }
+
+  /* Placeholder highlight so they're easy to spot */
+  .ph {
+    color: var(--gold); background: var(--gold-soft);
+    border: 1px dashed rgba(244, 181, 77, .55);
+    border-radius: 4px; padding: 0 5px;
+  }
+
+  /* ---------- Quote ---------- */
+  .quote {
+    margin: clamp(36px, 6vw, 60px) 0 0;
+    position: relative;
+    padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 48px);
+    border-left: 4px solid var(--red);
+    background: linear-gradient(100deg, rgba(165, 15, 45, .22), rgba(23, 13, 19, .6) 60%, transparent);
+    border-radius: 0 16px 16px 0;
+    box-shadow: -14px 0 40px -18px var(--glow);
+  }
+  .quote::before {
+    content: "\201C"; position: absolute; top: -.18em; right: .1em;
+    font-family: var(--display); font-weight: 900; font-size: clamp(7rem, 16vw, 12rem);
+    line-height: 1; color: var(--red); opacity: .16;
+  }
+  .quote p {
+    margin: 0; font-family: var(--display); font-weight: 500;
+    font-size: clamp(1.3rem, 1rem + 1.5vw, 2.05rem);
+    line-height: 1.32; letter-spacing: -.01em; color: #fff;
+  }
+  .quote cite {
+    display: block; margin-top: 18px; font-style: normal;
+    font-family: var(--mono); font-size: .78rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--gold);
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline { position: relative; margin-top: clamp(40px, 6vw, 64px); }
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .timeline::before, .timeline .fill {
+    content: ""; position: absolute; left: 31px; top: 12px; bottom: 12px; width: 2px;
+    border-radius: 2px;
+  }
+  .timeline::before { background: rgba(255, 45, 66, .16); }
+  .timeline .fill {
+    background: linear-gradient(180deg, var(--red), var(--crimson) 70%, var(--gold));
+    box-shadow: 0 0 12px var(--glow), 0 0 30px rgba(255,45,66,.35);
+    transform-origin: top; transform: scaleY(var(--p, 0));
+  }
+  .step {
+    position: relative; display: grid; grid-template-columns: 64px 1fr;
+    gap: clamp(16px, 3vw, 32px); padding-bottom: clamp(34px, 5vw, 54px);
+  }
+  .step:last-child { padding-bottom: 0; }
+  .node {
+    position: relative; z-index: 1;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, #2a0d15, #0d0609);
+    border: 1.5px solid var(--red);
+    color: var(--red);
+    box-shadow: 0 0 0 6px var(--bg), 0 0 20px var(--glow);
+  }
+  .node svg { width: 28px; height: 28px; }
+  .node b {
+    position: absolute; top: -6px; right: -8px;
+    min-width: 24px; height: 24px; border-radius: 12px; padding: 0 6px;
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: .7rem; font-weight: 500; color: #1a0a05;
+    background: var(--gold); box-shadow: 0 0 12px rgba(244,181,77,.55);
+  }
+  .step-body {
+    padding: 18px clamp(18px, 3vw, 28px) 22px;
+    background: linear-gradient(180deg, rgba(23, 13, 19, .85), rgba(18, 11, 16, .6));
+    border: 1px solid var(--line); border-radius: 14px;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .step:hover .step-body { border-color: rgba(255, 45, 66, .45); box-shadow: 0 0 30px -10px var(--glow); }
+  .step-body h4 {
+    margin: 0 0 8px; font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.1rem, 1rem + .5vw, 1.35rem); letter-spacing: .01em;
+  }
+  .step-body h4 small {
+    display: block; font-family: var(--mono); font-size: .68rem; font-weight: 500;
+    letter-spacing: .2em; color: var(--red); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .step-body p { margin: 0 0 .8em; max-width: 64ch; }
+  .step-body p:last-child { margin-bottom: 0; }
+  .step-body figure { margin-top: 20px; max-width: 560px; }
+  .flow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+    font-family: var(--mono); font-size: .76rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-top: 18px;
+  }
+  .flow span { color: var(--text); }
+  .flow i { font-style: normal; color: var(--red); }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 22px); margin-top: 36px;
+  }
+  @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 420px) { .stats { grid-template-columns: 1fr; } }
+  .stat {
+    position: relative; padding: 28px 22px 24px; border-radius: 16px;
+    background: linear-gradient(180deg, #1a0c12, #0f080c);
+    border: 1px solid rgba(255, 45, 66, .55);
+    box-shadow:
+      0 0 0 1px rgba(255, 45, 66, .08) inset,
+      0 0 22px -4px var(--glow),
+      0 0 60px -20px rgba(255, 45, 66, .7);
+    overflow: hidden;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .stat:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(255,45,66,.1) inset, 0 0 30px -2px var(--glow), 0 0 80px -16px rgba(255,45,66,.8); }
+  .stat::before {
+    content: ""; position: absolute; left: -30%; right: -30%; top: -60%; height: 100%;
+    background: radial-gradient(closest-side, rgba(255, 45, 66, .22), transparent);
+    pointer-events: none;
+  }
+  .stat .num {
+    position: relative; display: block;
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(1.9rem, 1.3rem + 2vw, 2.7rem); line-height: 1.05;
+    color: var(--gold); text-shadow: 0 0 20px rgba(244, 181, 77, .35);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .stat .lbl {
+    position: relative; display: block; margin-top: 10px;
+    font-family: var(--mono); font-size: .76rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text);
+  }
+
+  /* ---------- Personal response ---------- */
+  .response {
+    background:
+      radial-gradient(80% 50% at 100% 0%, rgba(165, 15, 45, .18), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(18, 11, 16, .7) 20%, rgba(18, 11, 16, .7) 80%, transparent);
+  }
+  .response .prose p { font-size: 1.05em; }
+  .response .prose p:first-child::first-line { color: #fff; }
+
+  /* ---------- Video ---------- */
+  .video-frame {
+    position: relative; aspect-ratio: 16 / 9; width: 100%;
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(255, 45, 66, .45);
+    box-shadow: 0 0 40px -12px var(--glow);
+    background: #0b0608;
+  }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-empty {
+    position: absolute; inset: 0; display: grid; place-content: center; gap: 14px;
+    text-align: center; padding: 20px; color: var(--muted);
+    font-family: var(--mono); font-size: .82rem;
+  }
+  .video-empty .play {
+    margin: 0 auto; width: 72px; height: 72px; border-radius: 50%;
+    border: 2px solid var(--red); display: grid; place-items: center;
+    box-shadow: 0 0 24px var(--glow);
+  }
+  .video-empty .play::after {
+    content: ""; margin-left: 6px;
+    border-left: 20px solid var(--red); border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+  }
+
+  /* ---------- Sources ---------- */
+  .sources { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; counter-reset: src; }
+  .source {
+    counter-increment: src;
+    display: grid; grid-template-columns: 56px 1fr; gap: 16px;
+    padding: 18px 20px; border-radius: 12px;
+    background: rgba(23, 13, 19, .7); border: 1px solid var(--line);
+  }
+  .source::before {
+    content: counter(src, decimal-leading-zero);
+    font-family: var(--mono); font-size: .85rem; color: var(--red); padding-top: 2px;
+  }
+  .source .kind {
+    display: inline-block; font-family: var(--mono); font-size: .66rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  }
+  .source .t { display: block; font-weight: 600; color: #fff; }
+  .source .m { display: block; color: var(--muted); font-size: .92rem; }
+  .source a { word-break: break-all; font-size: .92rem; }
+
+  footer {
+    padding: 50px var(--gutter) 60px; text-align: center;
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  footer b { color: var(--red); font-weight: 500; }
+
+  /* ---------- Reveal ---------- */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js .reveal.d1 { transition-delay: .08s; }
+  .js .reveal.d2 { transition-delay: .16s; }
+  .js .reveal.d3 { transition-delay: .24s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+    .timeline .fill { transform: scaleY(1); }
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="progress" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Main">
+  <a class="brand" href="#top"><i></i>UBITES</a>
+  <ul>
+    <li><a class="link" href="#summary">Summary</a></li>
+    <li><a class="link" href="#process">Process</a></li>
+    <li><a class="link" href="#response">Response</a></li>
+    <li><a class="link" href="#video">Video</a></li>
+    <li><a class="link" href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+<!-- ======================= HERO ======================= -->
+<header class="hero" id="top">
+  <div class="mars" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Ubites · Deep Space Food</div>
+    <h1>Would You <span>Eat Plastic?</span></h1>
+    <p class="sub">How scientists are turning plastic waste into cookies for astronauts.</p>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"></div>
+</header>
+
+<main>
+
+<!-- Image 1: near the top -->
+<section class="wrap" style="margin-top: -12vh; position: relative; z-index: 2;">
+  <figure class="feature-photo reveal">
+    <div class="photo">
+      <!-- PLACEHOLDER: image 1 file -->
+      <img src="images/ubites-nasa-patch.jpg" alt="Ubites cookies next to a NASA patch" loading="eager">
+      <div class="missing">Add photo: images/ubites-nasa-patch.jpg</div>
+    </div>
+    <figcaption>Ubites cookies next to a NASA patch.
+      <!-- PLACEHOLDER: photo 1 credit -->
+      <span class="credit">Photo: <span class="ph">[SOURCE]</span></span>
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ======================= SUMMARY ======================= -->
+<section id="summary">
+  <div class="wrap">
+    <div class="part-label reveal"><span class="tag">Part 1 · Summary</span></div>
+    <h2 class="part-title reveal">Summary</h2>
+  </div>
+
+  <!-- Intro -->
+  <div class="block wrap">
+    <div class="split">
+      <div>
+        <div class="sec-head reveal"><span class="sec-num">01</span><h3>Intro</h3></div>
+        <div class="prose reveal d1">
+          <p class="lead">Would you willingly eat plastic? As plastic pollutes our planet, researchers led by Associate Professor Lahiru Jayakody at Southern Illinois University have found out how to turn it into cookies. They presented their research at the American Chemical Society's (ACS) Fall 2026 meeting. While I know you would just love to indulge in these cookies, for now they are just for deep space travel.</p>
+        </div>
+      </div>
+      <!-- Image 3: near the research team -->
+      <figure class="reveal d2">
+        <div class="photo">
+          <!-- PLACEHOLDER: image 3 file -->
+          <img src="images/jayakody-lab.jpg" alt="Lahiru Jayakody holding a plastic bottle in his lab at SIU" loading="lazy">
+          <div class="missing">Add photo: images/jayakody-lab.jpg</div>
+        </div>
+        <figcaption>Lahiru Jayakody in his lab at SIU.
+          <!-- PLACEHOLDER: photo 3 credit -->
+          <span class="credit">Photo: <span class="ph">[SOURCE]</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- Why -->
+  <div class="block wrap">
+    <div class="sec-head reveal"><span class="sec-num">02</span><h3>Why</h3></div>
+    <div class="prose reveal d1">
+      <p>The reason for this research is space. As NASA prepares for deeper space travel where supply runs from Earth are not possible, astronauts need a sustainable food source. These cookies, called Ubites, kill two birds with one stone: they turn waste into food, improving waste management while also giving astronauts a sustainable food source.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- The Science -->
+  <div class="block wrap">
+    <div class="sec-head reveal"><span class="sec-num">03</span><h3>The Science</h3></div>
+    <div class="prose reveal d1">
+      <p>How is this possible? Contrary to popular belief, food and plastic do share a connection: they are both made of carbon. This means plastic can, in theory, be broken down into other carbon-based compounds, including the beginnings of proteins. To do this, researchers use microbes that can handle complex chemical transformations. As Jayakody told the ACS,</p>
+    </div>
+    <blockquote class="quote reveal d2">
+      <p>"Microbes are very clever. So we are using their traits to solve the problems we created."</p>
+      <cite>— Lahiru Jayakody</cite>
+    </blockquote>
+  </div>
+
+  <hr class="rule">
+
+  <!-- The Process -->
+  <div class="block wrap" id="process">
+    <div class="sec-head reveal"><span class="sec-num">04</span><h3>The Process</h3></div>
+    <div class="prose reveal d1">
+      <p>The process has several steps.</p>
+    </div>
+    <div class="flow reveal d1" aria-hidden="true">
+      <span>Plastic</span><i>→</i><span>Breakdown</span><i>→</i><span>Yeast</span><i>→</i><span>Mixing</span><i>→</i><span>3D Printing</span>
+    </div>
+
+    <div class="timeline">
+      <span class="fill" aria-hidden="true"></span>
+      <ol class="steps">
+
+      <li class="step reveal">
+        <div class="node" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3z"/><path d="M8 12h8M8 16h8"/></svg>
+          <b>1</b>
+        </div>
+        <div class="step-body">
+          <h4><small>Step 1</small>Plastic</h4>
+          <p>First, the plastic, PET (polyethylene terephthalate), has to be broken down into simpler molecules.</p>
+        </div>
+      </li>
+
+      <li class="step reveal">
+        <div class="node" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a6 6 0 0 0 6-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 4-3 8a6 6 0 0 0 6 6z"/><path d="M12 22a2.5 2.5 0 0 1-2.5-2.5c0-1.6 1.3-2.4 2.5-4 1.2 1.6 2.5 2.4 2.5 4A2.5 2.5 0 0 1 12 22z"/></svg>
+          <b>2</b>
+        </div>
+        <div class="step-body">
+          <h4><small>Step 2</small>Breakdown</h4>
+          <p>This is done with a method called oxidative hydrothermal dissolution, developed by SIU geology professor Ken Anderson, which uses water, oxygen, high heat, and pressure to break apart tough materials like PET and leftover cornstalks.</p>
+        </div>
+      </li>
+
+      <li class="step reveal">
+        <div class="node" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="10" r="5"/><circle cx="16.5" cy="16" r="3.5"/><circle cx="17.5" cy="5.5" r="2"/><circle cx="8" cy="9" r="1" fill="currentColor"/></svg>
+          <b>3</b>
+        </div>
+        <div class="step-body">
+          <h4><small>Step 3</small>Yeast</h4>
+          <p>Next, the molecules are fed to engineered yeast strains, including normal baker's yeast, which convert them into proteins, fats, and other useful compounds. Graduate student Sandhta Jayasekara engineered yeast strains that produce vanilla flavouring and beta-carotene (a source of vitamin A) from the waste compounds.</p>
+        </div>
+      </li>
+
+      <li class="step reveal">
+        <div class="node" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M15 2l-3 9"/><path d="M8 15c1.5 1 6.5 1 8 0"/></svg>
+          <b>4</b>
+        </div>
+        <div class="step-body">
+          <h4><small>Step 4</small>Mixing</h4>
+          <p>Finally, everything is mixed with fibre, starch, and sweetener,</p>
+        </div>
+      </li>
+
+      <li class="step reveal">
+        <div class="node" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M12 8v3M10.5 11h3l-1.5 2z"/><path d="M3 21h18"/><ellipse cx="12" cy="18" rx="5" ry="1.6"/></svg>
+          <b>5</b>
+        </div>
+        <div class="step-body">
+          <h4><small>Step 5</small>3D Printing</h4>
+          <p>and the mixture is fed into a food-grade 3D printer to shape the cookie.</p>
+          <!-- Image 2: near the 3D printing step -->
+          <figure>
+            <div class="photo">
+              <!-- PLACEHOLDER: image 2 file -->
+              <img src="images/ubites-foodbot-printer.jpg" alt="An Ubites cookie held in front of the FoodBot 3D printer" loading="lazy">
+              <div class="missing">Add photo: images/ubites-foodbot-printer.jpg</div>
+            </div>
+            <figcaption>An Ubites cookie in front of the FoodBot 3D printer.
+              <!-- PLACEHOLDER: photo 2 credit -->
+              <span class="credit">Photo: <span class="ph">[SOURCE]</span></span>
+            </figcaption>
+          </figure>
+        </div>
+      </li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- The Competition -->
+  <div class="block wrap">
+    <div class="sec-head reveal"><span class="sec-num">05</span><h3>The Competition</h3></div>
+    <div class="prose reveal d1">
+      <p>The team created Ubites for NASA's Deep Space Food Challenge and were selected as one of 18 U.S.-based winners, earning a $25,000 grant. While the original challenge has concluded, the Deep Space Food Challenge: Mars to Table is still active until September 30, 2026. It focuses on sustainable meal plans for integrated food systems and has a $750,000 prize pot.</p>
+    </div>
+
+    <div class="stats" role="list" aria-label="Key numbers">
+      <div class="stat reveal" role="listitem"><span class="num" data-count="25000" data-prefix="$">$25,000</span><span class="lbl">grant</span></div>
+      <div class="stat reveal d1" role="listitem"><span class="num" data-count="18">18</span><span class="lbl">U.S. winners</span></div>
+      <div class="stat reveal d2" role="listitem"><span class="num" data-count="750000" data-prefix="$">$750,000</span><span class="lbl">prize pot</span></div>
+      <div class="stat reveal d3" role="listitem"><span class="num" data-count="60" data-prefix="$">$60</span><span class="lbl">per kg</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PERSONAL RESPONSE ======================= -->
+<section id="response" class="response">
+  <div class="wrap">
+    <div class="part-label reveal"><span class="tag">Part 2 · Personal Response</span></div>
+    <h2 class="part-title reveal">Personal Response</h2>
+  </div>
+  <div class="block wrap">
+    <div class="prose reveal d1">
+      <p>When I first read about Ubites, I was really shocked to find out that plastic bottles and the food we eat every day are both made of the same element: carbon. To me, being able to make one of the things we need most, food, from the thing we are trying to get rid of is revolutionary. What frustrates me is that something this amazing is never talked about, even though it could have so many benefits beyond deep space.</p>
+      <p>The biggest problem right now is cost. At $60 per kilogram (about $27 per pound), Ubites are currently very expensive. However, if scientists could revise the formula to make it more appetising and mass-producible, they could be used by far more people than just astronauts or people in emergencies. They could become a planet-saving, cheap alternative to cookies. This makes me wonder: what if they could figure out how to make other foods this way? Then Ubites wouldn't just be an alternative to cookies; they could be an alternative to food itself.</p>
+      <p>Right now, this doesn't affect most people, but I see a future for Ubites in the working class because they would be a stable and cheap way for people to eat. I don't know if people will adopt these products or if the cookies will ever reach the shelves, but I am very excited to see where this goes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VIDEO ======================= -->
+<section id="video">
+  <div class="wrap">
+    <div class="part-label reveal"><span class="tag">Watch</span></div>
+    <h2 class="part-title reveal">Video</h2>
+  </div>
+  <div class="block wrap">
+    <figure class="reveal d1">
+      <div class="video-frame">
+        <!-- PLACEHOLDER: replace [VIDEO URL] with an embed link, e.g. https://www.youtube.com/embed/VIDEO_ID -->
+        <iframe src="[VIDEO URL]" title="Ubites video" loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <figcaption>
+        <!-- PLACEHOLDER: video credit -->
+        <span class="credit">Video: <span class="ph">[SOURCE]</span></span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= SOURCES ======================= -->
+<section id="sources">
+  <div class="wrap">
+    <div class="part-label reveal"><span class="tag">References</span></div>
+    <h2 class="part-title reveal">Sources</h2>
+  </div>
+  <div class="block wrap">
+    <!-- PLACEHOLDER: fill in each source. Copy an <li> block to add more. -->
+    <ol class="sources">
+      <li class="source reveal">
+        <div>
+          <span class="kind">Article</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+      <li class="source reveal">
+        <div>
+          <span class="kind">Article</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+      <li class="source reveal">
+        <div>
+          <span class="kind">Image 1 · Ubites cookies next to a NASA patch</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+      <li class="source reveal">
+        <div>
+          <span class="kind">Image 2 · Ubites cookie and FoodBot 3D printer</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+      <li class="source reveal">
+        <div>
+          <span class="kind">Image 3 · Lahiru Jayakody in his lab</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+      <li class="source reveal">
+        <div>
+          <span class="kind">Video</span>
+          <span class="t"><span class="ph">[TITLE]</span></span>
+          <span class="m"><span class="ph">[AUTHOR/ORGANISATION]</span> · <span class="ph">[DATE]</span></span>
+          <a href="#"><span class="ph">[LINK]</span></a>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>Global Issues Project · <b>Ubites</b></footer>
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Starfield ---------- */
+  var c = document.getElementById('stars'), ctx = c.getContext('2d');
+  var stars = [], W, H, dpr;
+  function build() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(W * H / 3200);
+    stars = [];
+    for (var i = 0; i < n; i++) {
+      var r = Math.random();
+      stars.push({
+        x: Math.random() * W, y: Math.random() * H,
+        s: r < .92 ? Math.random() * .9 + .3 : Math.random() * 1.2 + 1,
+        a: Math.random() * .6 + .25,
+        tw: Math.random() * Math.PI * 2, sp: Math.random() * .02 + .005,
+        v: Math.random() * .06 + .01,
+        red: Math.random() < .18, gold: Math.random() < .06
+      });
+    }
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      if (!reduce) { s.tw += s.sp; s.y -= s.v; if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; } }
+      var a = s.a * (0.65 + 0.35 * Math.sin(s.tw));
+      ctx.fillStyle = s.red ? 'rgba(255,110,120,' + a + ')' : s.gold ? 'rgba(255,205,140,' + a + ')' : 'rgba(255,240,242,' + a + ')';
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 6.2832); ctx.fill();
+      if (s.s > 1.3) { ctx.fillStyle = 'rgba(255,60,80,' + a * .15 + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, s.s * 3.5, 0, 6.2832); ctx.fill(); }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  build(); draw();
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { build(); if (reduce) draw(); }, 150); });
+
+  /* ---------- Missing image fallback ---------- */
+  document.querySelectorAll('.photo img').forEach(function (img) {
+    function miss() { img.parentNode.classList.add('is-missing'); }
+    if (img.complete && img.naturalWidth === 0) miss();
+    img.addEventListener('error', miss);
+  });
+
+  /* ---------- Video placeholder ---------- */
+  var ifr = document.querySelector('.video-frame iframe');
+  if (ifr && /^\s*\[/.test(ifr.getAttribute('src'))) {
+    var box = document.createElement('div');
+    box.className = 'video-empty';
+    box.innerHTML = '<div class="play"></div><div>Replace <span class="ph">[VIDEO URL]</span> in index.html</div>';
+    ifr.replaceWith(box);
+  }
+
+  /* ---------- Scroll reveal + count-up ---------- */
+  function countUp(el) {
+    var end = +el.dataset.count, pre = el.dataset.prefix || '', t0 = null, dur = 1100;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + Math.round(end * e).toLocaleString('en-US');
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        var n = en.target.querySelector('[data-count]');
+        if (n) countUp(n);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- Nav, progress bar, timeline line ---------- */
+  var nav = document.querySelector('.nav'), bar = document.querySelector('.progress');
+  var tl = document.querySelector('.timeline'), fill = tl && tl.querySelector('.fill');
+  var links = [].slice.call(document.querySelectorAll('.nav a.link'));
+  var ticking = false;
+  function onScroll() {
+    var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+    nav.classList.toggle('solid', y > 40);
+    bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+    if (fill && !reduce) {
+      var r = tl.getBoundingClientRect(), mid = window.innerHeight * 0.6;
+      var p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
+      fill.style.setProperty('--p', p);
+    }
+    var current = null;
+    links.forEach(function (a) {
+      var s = document.querySelector(a.getAttribute('href'));
+      if (s && s.getBoundingClientRect().top < window.innerHeight * 0.35) current = a;
+    });
+    links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
