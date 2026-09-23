@@ -420,6 +420,18 @@
     font-family: var(--mono); font-size: .76rem; letter-spacing: .08em;
     transition: background .2s, box-shadow .2s;
   }
+  .video-thumb { position: absolute; inset: 0; display: grid; place-items: center; }
+  .video-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .2s; }
+  .video-thumb:hover img { opacity: .95; }
+  .video-thumb .play {
+    position: relative; width: 84px; height: 84px; border-radius: 50%;
+    background: rgba(7, 5, 10, .6); border: 2px solid var(--red);
+    display: grid; place-items: center; box-shadow: 0 0 30px var(--glow);
+  }
+  .video-thumb .play::after {
+    content: ""; margin-left: 6px;
+    border-left: 24px solid var(--red); border-top: 14px solid transparent; border-bottom: 14px solid transparent;
+  }
   .watch:hover { background: rgba(255, 45, 66, .15); box-shadow: 0 0 18px -4px var(--glow); }
   .video-empty {
     position: absolute; inset: 0; display: grid; place-content: center; gap: 14px;
@@ -868,13 +880,18 @@
     img.addEventListener('error', miss);
   });
 
-  /* ---------- Video placeholder ---------- */
+  /* ---------- Video: YouTube won't play embeds on pages opened from disk
+     (error 153), so there show a thumbnail that opens YouTube instead ---------- */
   var ifr = document.querySelector('.video-frame iframe');
-  if (ifr && /^\s*\[/.test(ifr.getAttribute('src'))) {
-    var box = document.createElement('div');
-    box.className = 'video-empty';
-    box.innerHTML = '<div class="play"></div><div>Replace <span class="ph">[VIDEO URL]</span> in index.html</div>';
-    ifr.replaceWith(box);
+  if (ifr && location.protocol === 'file:') {
+    var id = ifr.getAttribute('src').split('/embed/')[1];
+    var a = document.createElement('a');
+    a.className = 'video-thumb';
+    a.href = 'https://www.youtube.com/watch?v=' + id;
+    a.target = '_blank'; a.rel = 'noopener';
+    a.setAttribute('aria-label', 'Watch on YouTube: ' + ifr.title);
+    a.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="" onerror="this.remove()"><span class="play"></span>';
+    ifr.replaceWith(a);
   }
 
   /* ---------- Scroll reveal + count-up ---------- */
